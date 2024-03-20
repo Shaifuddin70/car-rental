@@ -102,7 +102,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 														?>
 
 														<div class="stat-panel-number h1 "><?php echo htmlentities($bookings); ?></div>
-														<div class="stat-panel-title text-uppercase">Total Bookings</div>
+														<div class="stat-panel-title text-uppercase">Booking History</div>
 													</div>
 												</div>
 												<a href="manage-bookings.php" class="block-anchor panel-footer text-center">Full Detail &nbsp; <i class="fa fa-arrow-right"></i></a>
@@ -143,24 +143,6 @@ if (strlen($_SESSION['alogin']) == 0) {
 									<div class="row">
 										<div class="col-md-3">
 											<div class="panel panel-default">
-												<div class="panel-body bk-primary text-light">
-													<div class="stat-panel text-center">
-														<?php
-														$sql4 = "SELECT id from tblsubscribers ";
-														$query4 = $dbh->prepare($sql4);
-														$query4->execute();
-														$results4 = $query4->fetchAll(PDO::FETCH_OBJ);
-														$subscribers = $query4->rowCount();
-														?>
-														<div class="stat-panel-number h1 "><?php echo htmlentities($subscribers); ?></div>
-														<div class="stat-panel-title text-uppercase">Subscibers</div>
-													</div>
-												</div>
-												<a href="manage-subscribers.php" class="block-anchor panel-footer">Full Detail <i class="fa fa-arrow-right"></i></a>
-											</div>
-										</div>
-										<div class="col-md-3">
-											<div class="panel panel-default">
 												<div class="panel-body bk-success text-light">
 													<div class="stat-panel text-center">
 														<?php
@@ -176,27 +158,6 @@ if (strlen($_SESSION['alogin']) == 0) {
 												</div>
 												<a href="manage-conactusquery.php" class="block-anchor panel-footer text-center">Full Detail &nbsp; <i class="fa fa-arrow-right"></i></a>
 											</div>
-										</div>
-										<div class="col-md-3">
-											<div class="panel panel-default">
-												<div class="panel-body bk-info text-light">
-													<div class="stat-panel text-center">
-														<?php
-														$sql5 = "SELECT id from tbltestimonial ";
-														$query5 = $dbh->prepare($sql5);
-														$query5->execute();
-														$results5 = $query5->fetchAll(PDO::FETCH_OBJ);
-														$testimonials = $query5->rowCount();
-														?>
-
-														<div class="stat-panel-number h1 "><?php echo htmlentities($testimonials); ?></div>
-														<div class="stat-panel-title text-uppercase">Testimonials</div>
-													</div>
-												</div>
-												<a href="testimonials.php" class="block-anchor panel-footer text-center">Full Detail &nbsp; <i class="fa fa-arrow-right"></i></a>
-											</div>
-										</div>
-
 									</div>
 								</div>
 							</div>

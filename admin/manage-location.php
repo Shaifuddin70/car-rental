@@ -67,6 +67,9 @@ if(strlen($_SESSION['alogin'])==0) {
                 <div class="row">
                     <div class="col-md-12">
                         <h2 class="page-title">Manage Locations</h2>
+                        <div class="text-right mb-3" style="margin-bottom: 20px;">
+								<a href="add-alocation.php" class="btn btn-primary">Add Location</a>
+							</div>
                         <div class="panel panel-default">
                             <div class="panel-heading">Listed Locations</div>
                             <div class="panel-body">

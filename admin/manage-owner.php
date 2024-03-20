@@ -48,6 +48,9 @@ if(strlen($_SESSION['alogin'])==0) {
                     <div class="col-md-12">
 
                         <h2 class="page-title">Manage Owners</h2>
+                        <div class="text-right mb-3" style="margin-bottom: 20px;">
+								<a href="create-owner.php" class="btn btn-primary">Add Owner</a>
+							</div>
 
                         <!-- Zero Configuration Table -->
                         <div class="panel panel-default">
