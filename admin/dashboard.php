@@ -159,6 +159,44 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<a href="manage-conactusquery.php" class="block-anchor panel-footer text-center">Full Detail &nbsp; <i class="fa fa-arrow-right"></i></a>
 											</div>
 									</div>
+									<div class="col-md-3">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body bk-info text-light">
+                                                    <div class="stat-panel text-center">
+                                                        <?php
+
+                                                        $oname = $_SESSION['ologin'];
+                                                        $sqlo = "SELECT id FROM tblowner WHERE UserName = :oname";
+                                                        $queryo = $dbh->prepare($sqlo);
+                                                        $queryo->bindParam(':oname', $oname, PDO::PARAM_STR);
+                                                        $queryo->execute();
+                                                        $resulto = $queryo->fetchAll(PDO::FETCH_OBJ);
+                                                        $ownerId = $resulto[0]->id;
+                                                        $status = 3;
+                                                        $sql = "SELECT tblvehicles.VehiclesTitle,tblbooking.advance, tblbooking.FromDate, tblbooking.ToDate, tblbooking.message, tblbooking.VehicleId as vid, tblbooking.Status, tblbooking.PostingDate, tblbooking.id, tblbooking.BookingNumber  
+                                                  FROM tblbooking 
+                                                  JOIN tblvehicles ON tblvehicles.id = tblbooking.VehicleId 
+                                                  JOIN tblusers ON tblusers.EmailId = tblbooking.userEmail 
+                                                  JOIN tblbrands ON tblvehicles.VehiclesBrand = tblbrands.id   
+                                                  WHERE tblbooking.Status = :status";
+                                                        $query2 = $dbh->prepare($sql);
+                                                        $query2->bindParam(':status', $status, PDO::PARAM_STR);
+                                                       
+                                                        $query2->execute();
+                                                        $results2 = $query2->fetchAll(PDO::FETCH_OBJ);
+                                                        $total=0;
+                                                        foreach ($results2 as $result) {  
+                                                           $total+= $result->advance ;
+                                                        }
+                                                        ?>
+                                                        <div class="stat-panel-number h1 "><?php echo htmlentities($total); ?></div>
+                                                        <div class="stat-panel-title text-uppercase">Income</div>
+                                                    </div>
+                                                </div>
+                                                <a href="booking.php" class="block-anchor panel-footer">Full Detail <i class="fa fa-arrow-right"></i></a>
+                                            </div>
+                                        </div>
+
 								</div>
 							</div>
 						</div>

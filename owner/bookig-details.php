@@ -85,7 +85,7 @@ if (strlen($_SESSION['ologin']) == 0) {
 
 												<?php
 												$bid = intval($_GET['bid']);
-												$sql = "SELECT tblusers.*,tblbrands.BrandName,tblvehicles.VehiclesTitle,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.VehicleId as vid,tblbooking.Status,tblbooking.PostingDate,tblbooking.id,tblbooking.BookingNumber,
+												$sql = "SELECT tblusers.*,tblbrands.BrandName,tblvehicles.VehiclesTitle,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.review,tblbooking.VehicleId as vid,tblbooking.Status,tblbooking.PostingDate,tblbooking.id,tblbooking.BookingNumber,
 														DATEDIFF(tblbooking.ToDate,tblbooking.FromDate) as totalnodays,tblvehicles.PricePerDay
 													  	from tblbooking join tblvehicles on tblvehicles.id=tblbooking.VehicleId join tblusers on tblusers.EmailId=tblbooking.userEmail join tblbrands on tblvehicles.VehiclesBrand=tblbrands.id where tblbooking.id=:bid";
 												$query = $dbh->prepare($sql);
@@ -161,6 +161,8 @@ if (strlen($_SESSION['ologin']) == 0) {
 																	echo htmlentities('Cancelled');
 																}
 																?></td>
+																<th>Review</th>
+															<td><?php echo htmlentities($result->review); ?></td>
 
 														</tr>
 
