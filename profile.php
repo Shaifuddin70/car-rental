@@ -105,8 +105,6 @@ $msg="Profile Updated Successfully";
   <div class="dark-overlay"></div>
 </section>
 <!-- /Page Header--> 
-
-
 <?php 
 $useremail=$_SESSION['login'];
 $sql = "SELECT * from tblusers where EmailId=:useremail";
