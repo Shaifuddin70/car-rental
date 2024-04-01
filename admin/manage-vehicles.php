@@ -95,6 +95,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 											<tr>
 												<th>#</th>
 												<th>Vehicle Title</th>
+												<th>Number plate</th>
 												<th>Brand </th>
 												<th>Owner</th>
 												<th>Location</th>
@@ -107,7 +108,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 
 										<tbody>
 
-											<?php $sql = "SELECT tblowner.UserName, tblvehicles.VehiclesTitle,tblbrands.BrandName,tbllocation.LocationName,tblvehicles.PricePerDay,tblvehicles.FuelType,tblvehicles.ModelYear,tblvehicles.id from tblvehicles join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand join tbllocation on tbllocation.id=tblvehicles.location join tblowner on tblowner.id=tblvehicles.owner_id";
+											<?php $sql = "SELECT tblvehicles.number_plate,tblowner.UserName, tblvehicles.VehiclesTitle,tblbrands.BrandName,tbllocation.LocationName,tblvehicles.PricePerDay,tblvehicles.FuelType,tblvehicles.ModelYear,tblvehicles.id from tblvehicles join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand join tbllocation on tbllocation.id=tblvehicles.location join tblowner on tblowner.id=tblvehicles.owner_id";
 											$query = $dbh->prepare($sql);
 											$query->execute();
 											$results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -117,6 +118,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 													<tr>
 														<td><?php echo htmlentities($cnt); ?></td>
 														<td><?php echo htmlentities($result->VehiclesTitle); ?></td>
+														<td><?php echo htmlentities($result->number_plate); ?></td>
 														<td><?php echo htmlentities($result->BrandName); ?></td>
 														<td><?php echo htmlentities($result->UserName); ?></td>
 														<td><?php echo htmlentities($result->LocationName); ?></td>

@@ -92,13 +92,14 @@ if (strlen($_SESSION['ologin']) == 0) {
                                             <tr>
                                                 <th>#</th>
                                                 <th>Vehicle Title</th>
+                                                <th>Number Plate</th>
                                                 <th>Brand </th>
                                                 <th>Owner</th>
                                                 <th>Location</th>
                                                 <th>Price Per day</th>
                                                 <th>Fuel Type</th>
                                                 <th>Model Year</th>
-                                                <th>Action</th>
+                                                
                                             </tr>
                                         </thead>
 
@@ -115,7 +116,7 @@ if (strlen($_SESSION['ologin']) == 0) {
                                             
 
 
-                                            $sql = "SELECT tblowner.UserName, tblvehicles.VehiclesTitle,tblbrands.BrandName,tbllocation.LocationName,tblvehicles.PricePerDay,tblvehicles.FuelType,tblvehicles.ModelYear,tblvehicles.id from tblvehicles join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand join tbllocation on tbllocation.id=tblvehicles.location join tblowner on tblowner.id=tblvehicles.owner_id WHERE owner_id=$oid";
+                                            $sql = "SELECT tblowner.UserName,tblvehicles.number_plate, tblvehicles.VehiclesTitle,tblbrands.BrandName,tbllocation.LocationName,tblvehicles.PricePerDay,tblvehicles.FuelType,tblvehicles.ModelYear,tblvehicles.id from tblvehicles join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand join tbllocation on tbllocation.id=tblvehicles.location join tblowner on tblowner.id=tblvehicles.owner_id WHERE owner_id=$oid";
                                             $query = $dbh->prepare($sql);
                                             $query->execute();
                                             $results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -125,15 +126,14 @@ if (strlen($_SESSION['ologin']) == 0) {
                                                     <tr>
                                                         <td><?php echo htmlentities($cnt); ?></td>
                                                         <td><?php echo htmlentities($result->VehiclesTitle); ?></td>
+                                                        <td><?php echo htmlentities($result->number_plate); ?></td>
                                                         <td><?php echo htmlentities($result->BrandName); ?></td>
                                                         <td><?php echo htmlentities($result->UserName); ?></td>
                                                         <td><?php echo htmlentities($result->LocationName); ?></td>
                                                         <td><?php echo htmlentities($result->PricePerDay); ?></td>
                                                         <td><?php echo htmlentities($result->FuelType); ?></td>
                                                         <td><?php echo htmlentities($result->ModelYear); ?></td>
-                                                        <td><a href="edit-vehicle.php?id=<?php echo $result->id; ?>"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
-                                                            <a href="manage-vehicles.php?del=<?php echo $result->id; ?>" onclick="return confirm('Do you want to delete');"><i class="fa fa-close"></i></a>
-                                                        </td>
+                                                        
                                                     </tr>
                                             <?php $cnt = $cnt + 1;
                                                 }

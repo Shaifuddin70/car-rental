@@ -8,6 +8,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 
 	if (isset($_POST['submit'])) {
 		$ownername = $_POST['ownername'];
+		$numberplate = $_POST['numberplate'];
 		$vehicletitle = $_POST['vehicletitle'];
 		$brand = $_POST['brandname'];
 		$location = $_POST['location'];
@@ -30,9 +31,10 @@ if (strlen($_SESSION['alogin']) == 0) {
 		$leatherseats = $_POST['leatherseats'];
 		$id = intval($_GET['id']);
 
-		$sql = "update tblvehicles set owner_id=:ownername,VehiclesTitle=:vehicletitle,VehiclesBrand=:brand,location=:location,VehiclesOverview=:vehicleoverview,PricePerDay=:priceperday,FuelType=:fueltype,ModelYear=:modelyear,SeatingCapacity=:seatingcapacity,AirConditioner=:airconditioner,PowerDoorLocks=:powerdoorlocks,AntiLockBrakingSystem=:antilockbrakingsys,BrakeAssist=:brakeassist,PowerSteering=:powersteering,DriverAirbag=:driverairbag,PassengerAirbag=:passengerairbag,PowerWindows=:powerwindow,CDPlayer=:cdplayer,CentralLocking=:centrallocking,CrashSensor=:crashcensor,LeatherSeats=:leatherseats where id=:id ";
+		$sql = "update tblvehicles set owner_id=:ownername,number_plate=:numberplate,VehiclesTitle=:vehicletitle,VehiclesBrand=:brand,location=:location,VehiclesOverview=:vehicleoverview,PricePerDay=:priceperday,FuelType=:fueltype,ModelYear=:modelyear,SeatingCapacity=:seatingcapacity,AirConditioner=:airconditioner,PowerDoorLocks=:powerdoorlocks,AntiLockBrakingSystem=:antilockbrakingsys,BrakeAssist=:brakeassist,PowerSteering=:powersteering,DriverAirbag=:driverairbag,PassengerAirbag=:passengerairbag,PowerWindows=:powerwindow,CDPlayer=:cdplayer,CentralLocking=:centrallocking,CrashSensor=:crashcensor,LeatherSeats=:leatherseats where id=:id ";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':ownername', $ownername, PDO::PARAM_STR);
+		$query->bindParam(':numberplate', $numberplate, PDO::PARAM_STR);
 		$query->bindParam(':vehicletitle', $vehicletitle, PDO::PARAM_STR);
 		$query->bindParam(':brand', $brand, PDO::PARAM_STR);
 		$query->bindParam(':location', $location, PDO::PARAM_STR);
@@ -167,6 +169,10 @@ if (strlen($_SESSION['alogin']) == 0) {
 
 																</select>
 															</div>
+															<label class="col-sm-2 control-label">Number Plate<span style="color:red">*</span></label>
+                                                    <div class="col-sm-4">
+                                                        <input type="text" value="<?php echo htmlentities($result->number_plate) ?>" name="numberplate" class="form-control" required>
+                                                    </div>
 														</div>
 
 

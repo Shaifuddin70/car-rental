@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 include('includes/config.php');
 if (strlen($_SESSION['login']) == 0) {
   header('location:index.php');
@@ -112,7 +111,7 @@ if (strlen($_SESSION['login']) == 0) {
                       <ul class="vehicle_listing">
                         <?php
                         $useremail = $_SESSION['login'];
-                        $sql = "SELECT tblvehicles.Vimage1 as Vimage1,tblvehicles.VehiclesTitle,tblvehicles.id as vid,tblbrands.BrandName,tblbooking.id,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.advance,tblbooking.due,tblbooking.Status,tblbooking.review,tblvehicles.PricePerDay,DATEDIFF(tblbooking.ToDate,tblbooking.FromDate) as totaldays,tblbooking.BookingNumber  from tblbooking join tblvehicles on tblbooking.VehicleId=tblvehicles.id join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand where tblbooking.userEmail=:useremail order by tblbooking.id desc";
+                        $sql = "SELECT tblvehicles.Vimage1 as Vimage1,tblvehicles.number_plate,tblvehicles.VehiclesTitle,tblvehicles.id as vid,tblbrands.BrandName,tblbooking.id,tblbooking.FromDate,tblbooking.ToDate,tblbooking.message,tblbooking.advance,tblbooking.due,tblbooking.Status,tblbooking.review,tblvehicles.PricePerDay,DATEDIFF(tblbooking.ToDate,tblbooking.FromDate) as totaldays,tblbooking.BookingNumber  from tblbooking join tblvehicles on tblbooking.VehicleId=tblvehicles.id join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand where tblbooking.userEmail=:useremail order by tblbooking.id desc";
                         $query = $dbh->prepare($sql);
                         $query->bindParam(':useremail', $useremail, PDO::PARAM_STR);
                         $query->execute();
@@ -127,6 +126,7 @@ if (strlen($_SESSION['login']) == 0) {
                               <div class="vehicle_title">
 
                                 <h6><a href="vehical-details.php?vhid=<?php echo htmlentities($result->vid); ?>"> <?php echo htmlentities($result->BrandName); ?> , <?php echo htmlentities($result->VehiclesTitle); ?></a></h6>
+                                <h6><?php echo htmlentities($result->number_plate); ?></h6>
                                 <p><b>From </b> <?php echo htmlentities($result->FromDate); ?> <b>To </b> <?php echo htmlentities($result->ToDate); ?></p>
                                 <div style="float: left">
                                   <p><b>Message:</b> <?php echo htmlentities($result->message); ?> </p>
@@ -143,18 +143,19 @@ if (strlen($_SESSION['login']) == 0) {
                                 </div>
 
                               <?php } else if ($result->Status == 2) { ?>
-                                <div class="vehicle_status"> <a href="#" class="btn outline btn-xs">Cancelled</a>
+                                <div class="vehicle_status"> <a class="btn outline btn-xs">Cancelled</a>
                                   <div class="clearfix"></div>
                                 </div>
                               <?php } else if ($result->Status == 3) { ?>
-                                <div class="vehicle_status"> <a href="#" class="btn outline btn-xs active-btn">Completed</a>
+                                <div class="vehicle_status"> <a class="btn outline btn-xs active-btn">Completed</a>
                                   <div class="clearfix"></div>
                                 </div>
 
 
 
                               <?php } else { ?>
-                                <div class="vehicle_status"> <a href="#" class="btn outline btn-xs">Not Confirm yet</a>
+                              
+                                <div class="vehicle_status"> <a  class="btn outline btn-xs">Not Confirm yet</a>
                                   <div class="clearfix"></div>
                                 </div>
                               <?php }

@@ -12,69 +12,69 @@ $query->execute();
 $results = $query->fetchAll(PDO::FETCH_OBJ);
 
 if (isset($_POST['submit'])) {
-    $fromdate = $_POST['fromdate'];
-    $todate = $_POST['todate'];
-    $message = $_POST['message'];
-    $useremail = $_SESSION['login'];
-    $status = 0;
-    $vhid = $_GET['vhid'];
-    $datetime1 = new DateTime($fromdate);
-    $datetime2 = new DateTime($todate);
-    $interval = $datetime1->diff($datetime2);
-    $totaldays = $interval->days;
+  $fromdate = $_POST['fromdate'];
+  $todate = $_POST['todate'];
+  $message = $_POST['message'];
+  $useremail = $_SESSION['login'];
+  $status = 0;
+  $vhid = $_GET['vhid'];
+  $datetime1 = new DateTime($fromdate);
+  $datetime2 = new DateTime($todate);
+  $interval = $datetime1->diff($datetime2);
+  $totaldays = $interval->days;
 
-    // Fetch rental price
-    $rent = $results[0]->PricePerDay; // Assuming PricePerDay is the column name in your database
+  // Fetch rental price
+  $rent = $results[0]->PricePerDay; // Assuming PricePerDay is the column name in your database
 
-    // Calculate deposit (20% of rent)
-    $deposit = $rent * 0.2;
+  // Calculate deposit (20% of rent)
+  $deposit = $rent * 0.2;
 
-    // Calculate advance (assuming it's equal to the deposit)
-    $advance = $deposit;
+  // Calculate advance (assuming it's equal to the deposit)
+  $advance = $deposit;
 
-    // Calculate due (rent * total days - deposit)
-    $due = ($rent * $totaldays) - $deposit;
+  // Calculate due (rent * total days - deposit)
+  $due = ($rent * $totaldays) - $deposit;
 
-    $bookingno = mt_rand(100000000, 999999999);
-    $ret = "SELECT * FROM tblbooking 
+  $bookingno = mt_rand(100000000, 999999999);
+  $ret = "SELECT * FROM tblbooking 
             WHERE (:fromdate BETWEEN date(FromDate) AND date(ToDate) 
             OR :todate BETWEEN date(FromDate) AND date(ToDate) 
             OR date(FromDate) BETWEEN :fromdate AND :todate) 
             AND Status!=2 AND Status!=3
             AND VehicleId = :vhid";
-    $query1 = $dbh->prepare($ret);
-    $query1->bindParam(':vhid', $vhid, PDO::PARAM_INT);
-    $query1->bindParam(':fromdate', $fromdate, PDO::PARAM_STR);
-    $query1->bindParam(':todate', $todate, PDO::PARAM_STR);
-    $query1->execute();
-    $results1 = $query1->fetchAll(PDO::FETCH_OBJ);
+  $query1 = $dbh->prepare($ret);
+  $query1->bindParam(':vhid', $vhid, PDO::PARAM_INT);
+  $query1->bindParam(':fromdate', $fromdate, PDO::PARAM_STR);
+  $query1->bindParam(':todate', $todate, PDO::PARAM_STR);
+  $query1->execute();
+  $results1 = $query1->fetchAll(PDO::FETCH_OBJ);
 
-    if ($query1->rowCount() == 0) {
-        $sql = "INSERT INTO  tblbooking(BookingNumber, userEmail, VehicleId, FromDate, ToDate, message, advance, due, Status) 
+  if ($query1->rowCount() == 0) {
+    $sql = "INSERT INTO  tblbooking(BookingNumber, userEmail, VehicleId, FromDate, ToDate, message, advance, due, Status) 
                 VALUES(:bookingno, :useremail, :vhid, :fromdate, :todate, :message, :advance, :due, :status)";
-        $query = $dbh->prepare($sql);
-        $query->bindParam(':bookingno', $bookingno, PDO::PARAM_STR);
-        $query->bindParam(':useremail', $useremail, PDO::PARAM_STR);
-        $query->bindParam(':vhid', $vhid, PDO::PARAM_INT);
-        $query->bindParam(':fromdate', $fromdate, PDO::PARAM_STR);
-        $query->bindParam(':todate', $todate, PDO::PARAM_STR);
-        $query->bindParam(':message', $message, PDO::PARAM_STR);
-        $query->bindParam(':advance', $advance, PDO::PARAM_STR);
-        $query->bindParam(':due', $due, PDO::PARAM_STR);
-        $query->bindParam(':status', $status, PDO::PARAM_STR);
-        $query->execute();
-        $lastInsertId = $dbh->lastInsertId();
-        if ($lastInsertId) {
-            echo "<script>alert('Booking successful.');</script>";
-            echo "<script type='text/javascript'> document.location = 'my-booking.php'; </script>";
-        } else {
-            echo "<script>alert('Something went wrong. Please try again');</script>";
-            echo "<script type='text/javascript'> document.location = 'car-listing.php'; </script>";
-        }
+    $query = $dbh->prepare($sql);
+    $query->bindParam(':bookingno', $bookingno, PDO::PARAM_STR);
+    $query->bindParam(':useremail', $useremail, PDO::PARAM_STR);
+    $query->bindParam(':vhid', $vhid, PDO::PARAM_INT);
+    $query->bindParam(':fromdate', $fromdate, PDO::PARAM_STR);
+    $query->bindParam(':todate', $todate, PDO::PARAM_STR);
+    $query->bindParam(':message', $message, PDO::PARAM_STR);
+    $query->bindParam(':advance', $advance, PDO::PARAM_STR);
+    $query->bindParam(':due', $due, PDO::PARAM_STR);
+    $query->bindParam(':status', $status, PDO::PARAM_STR);
+    $query->execute();
+    $lastInsertId = $dbh->lastInsertId();
+    if ($lastInsertId) {
+      echo "<script>alert('Booking successful.');</script>";
+      echo "<script type='text/javascript'> document.location = 'my-booking.php'; </script>";
     } else {
-        echo "<script>alert('Car already booked for these days');</script>";
-        echo "<script type='text/javascript'> document.location = 'car-listing.php'; </script>";
+      echo "<script>alert('Something went wrong. Please try again');</script>";
+      echo "<script type='text/javascript'> document.location = 'car-listing.php'; </script>";
     }
+  } else {
+    echo "<script>alert('Car already booked for these days');</script>";
+    echo "<script type='text/javascript'> document.location = 'car-listing.php'; </script>";
+  }
 }
 ?>
 
@@ -343,6 +343,7 @@ if (isset($_POST['submit'])) {
                         </tbody>
                       </table>
                     </div>
+                    
                   </div>
                 </div>
 
