@@ -93,7 +93,9 @@ error_reporting(0);
 
           <?php
 
-          $sql = "SELECT tblvehicles.*,tblbrands.BrandName,tblbrands.id as bid  from tblvehicles join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand where tblvehicles.VehiclesBrand=:brand and tblvehicles.FuelType=:fueltype and tblvehicles.location=:location";
+          $sql = "SELECT tblvehicles.*,tblbrands.BrandName,tblbrands.id as bid  from tblvehicles join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand where tblvehicles.VehiclesBrand=:brand 
+          OR tblvehicles.FuelType=:fueltype 
+          OR tblvehicles.location=:location";
           $query = $dbh->prepare($sql);
           $query->bindParam(':brand', $brand, PDO::PARAM_INT);
           $query->bindParam(':fueltype', $fueltype, PDO::PARAM_STR);

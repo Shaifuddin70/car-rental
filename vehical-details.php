@@ -1,5 +1,6 @@
 <?php
 session_start();
+error_reporting(0);
 include('includes/config.php');
 $vhid = intval($_GET['vhid']);
 $sql = "SELECT tblvehicles.*, tblbrands.BrandName, tblbrands.id as bid  
